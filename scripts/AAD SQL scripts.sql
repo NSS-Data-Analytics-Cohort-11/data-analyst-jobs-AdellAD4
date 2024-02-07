@@ -79,7 +79,26 @@ AND title NOT LIKE '%Analytics%';
 --Answer 39 **HOWEVER** most of these still contain the word ANALYST. (Am I doing something wrong?). Also most of them contain the word DATA.
 
 --**BONUS:**
---You want to understand which jobs requiring SQL are hard to fill. Find the number of jobs by industry (domain) that require SQL and have been posted longer than 3 weeks. 
+--You want to understand which jobs requiring SQL are hard to fill. Find the number of jobs by industry (domain) that require SQL and have been posted longer than 3 weeks.
+SELECT title, domain, days_since_posting
+FROM data_analyst_jobs
+WHERE skill = 'SQL'
+AND days_since_posting > 21;
+
 -- - Disregard any postings where the domain is NULL. 
+SELECT title, domain, days_since_posting
+FROM data_analyst_jobs
+WHERE domain IS NOT NULL
+AND skill = 'SQL'
+AND days_since_posting > 21
+
 -- - Order your results so that the domain with the greatest number of `hard to fill` jobs is at the top. 
+SELECT title, domain, days_since_posting
+FROM data_analyst_jobs
+WHERE domain IS NOT NULL
+AND skill = 'SQL'
+AND days_since_posting > 21
+ORDER BY domain DESC;
+
 --  - Which three industries are in the top 4 on this list? How many jobs have been listed for more than 3 weeks for each of the top 4?
+--Answer Transpor & Freight, Real Estate, Internet & Software, and Consumer Goods & Services. 
