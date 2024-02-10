@@ -7,7 +7,7 @@ FROM data_analyst_jobs;
 SELECT*
 FROM data_analyst_jobs
 LIMIT 10;
---Answer XTO Land Data Analyst
+--Answer XTO Land Data Analyst, oh oops! The company name is ExxonMobil.
 
 --3. How many postings are in Tennessee? How many are there in either Tennessee or Kentucky?
 SELECT COUNT (*)
@@ -54,16 +54,18 @@ WHERE location = 'CA';
 SELECT company, AVG(star_rating) AS avg_star_rating
 FROM data_analyst_jobs
 WHERE review_count > 5000
+AND company IS NOT NULL
 GROUP BY company;
---Answer 41
+--Answer 40
 
 --10.	Add the code to order the query in #9 from highest to lowest average star rating. Which company with more than 5000 reviews across all locations in the dataset has the highest star rating? What is that rating?
 SELECT company, AVG(star_rating) AS avg_star_rating
 FROM data_analyst_jobs
 WHERE review_count > 5000
+AND company IS NOT NULL
 GROUP BY company 
 ORDER BY avg_star_rating DESC;
---Answer General Motors
+--Answer Unilever, General Motors, Nike, American Express, Microsoft, and Kaiser Permanente who all have an average star rating of 4.1999
 
 --11.	Find all the job titles that contain the word ‘Analyst’. How many different job titles are there? 
 SELECT DISTINCT (title)
@@ -76,39 +78,39 @@ SELECT title
 FROM data_analyst_jobs
 WHERE title NOT iLIKE '%Analyst%' 
 AND title NOT iLIKE '%Analytics%';
---Answer 4. 3 of the 4 contain the word "Data".
+--Answer 4. 3 of the 4 contain the word "Data" and also all four results contain the word "Tableau".
 
 --**BONUS:**
 --You want to understand which jobs requiring SQL are hard to fill. Find the number of jobs by industry (domain) that require SQL and have been posted longer than 3 weeks.
 SELECT title, domain, days_since_posting
 FROM data_analyst_jobs
-WHERE skill = 'SQL'
+WHERE skill iLIKE '%SQL%'
 AND days_since_posting > 21;
 
 -- - Disregard any postings where the domain is NULL. 
 SELECT title, domain, days_since_posting
 FROM data_analyst_jobs
 WHERE domain IS NOT NULL
-AND skill = 'SQL'
+AND skill iLIKE '%SQL%'
 AND days_since_posting > 21
 
 -- - Order your results so that the domain with the greatest number of `hard to fill` jobs is at the top. 
 SELECT title, domain, days_since_posting
 FROM data_analyst_jobs
 WHERE domain IS NOT NULL
-AND skill = 'SQL'
+AND skill iLIKE '%SQL%'
 AND days_since_posting > 21
 ORDER BY domain DESC;
 
 --  - Which three industries are in the top 4 on this list?
---Answer Transpor & Freight, Real Estate, Internet & Software, and Consumer Goods & Services. 
+--Answer Transport & Freight, Telecommunications, Retail, and Restaurants Travel and Leisure. 
 
 --How many jobs have been listed for more than 3 weeks for each of the top 4?
 SELECT COUNT(title), domain, days_since_posting
 FROM data_analyst_jobs
 WHERE domain IS NOT NULL
-AND skill = 'SQL'
+AND skill iLIKE '%SQL%'
 AND days_since_posting > 21
 GROUP BY domain, days_since_posting
 ORDER BY domain DESC;
---Answer 1,1,1, and 2
+--Answer 4 (Transport and Freight), 2 (Transport and Freight), 2 (Telecommunications), and 1 (Retail)
